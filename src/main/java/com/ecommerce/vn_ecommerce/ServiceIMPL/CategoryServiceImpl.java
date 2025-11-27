@@ -51,8 +51,10 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category getCategoryById(Long id) {
-        return categoryRespository.getReferenceById(id);
+    public CategoryDTO getCategoryById(Long id) {
+        Category categoryById =  categoryRespository.getReferenceById(id);
+
+        return modelMapper.map(categoryById, CategoryDTO.class);
     }
 
     @Override
@@ -61,10 +63,12 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category updateCategory(Long id, Category updatedCategory) {
+    public CategoryDTO updateCategory(Long id, Category updatedCategory) {
         Category c = categoryRespository.getReferenceById(id);
         c.setName(updatedCategory.getName());
-        return categoryRespository.save(c);
+        Category updatedcategory = categoryRespository.save(c);
+
+        return modelMapper.map(updatedCategory, CategoryDTO.class);
     }
 
 

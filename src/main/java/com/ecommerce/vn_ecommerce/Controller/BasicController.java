@@ -33,7 +33,7 @@ public class BasicController {
 
     @GetMapping("/getCategory/{id}")
     public ResponseEntity<String> getCategoryById(@PathVariable Long id) {
-        Category category = categoryService.getCategoryById(id);
+        CategoryDTO category = categoryService.getCategoryById(id);
         return new ResponseEntity<>(category.getName(), HttpStatus.OK);
     }
 
@@ -44,7 +44,7 @@ public class BasicController {
     }
 
     @PutMapping("/updateCategory/{id}")
-    public ResponseEntity<Category> updateCategory(@PathVariable Long id, @RequestBody Category updatedCategory) {
+    public ResponseEntity<CategoryDTO> updateCategory(@PathVariable Long id, @RequestBody Category updatedCategory) {
         return new ResponseEntity<>(categoryService.updateCategory(id, updatedCategory), HttpStatus.CREATED);
     }
 
