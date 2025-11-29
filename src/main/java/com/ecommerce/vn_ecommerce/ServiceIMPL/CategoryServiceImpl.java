@@ -7,8 +7,13 @@ import com.ecommerce.vn_ecommerce.Service.CategoryService;
 import com.ecommerce.vn_ecommerce.repositories.CategoryRespository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.swing.*;
 import java.util.List;
 
 @Service
@@ -28,8 +33,14 @@ public class CategoryServiceImpl implements CategoryService {
    // private final ArrayList<Category> categories = new ArrayList<>();
 
     @Override
-    public CategoryResponse getCategories() {
-        List<Category> categories = categoryRespository.findAll();
+    public CategoryResponse getCategories(Integer pageNumber, Integer pageSize, String sortByCategoryId, String sortDir) {
+
+        Sort sort = sortDir.equalsIgnoreCase("asc")?Sort.by(sortByCategoryId).ascending() : Sort.by(sortByCategoryId).descending();
+
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        Page<Category> categoryPage = categoryRespository.findAll(pageable);
+
+        List<Category> categories = categoryPage.getContent();
         if (categories.isEmpty()) {
             System.out.println("Couldn't find any Categories");
         }
@@ -39,6 +50,11 @@ public class CategoryServiceImpl implements CategoryService {
 
         CategoryResponse categoryResponse = new CategoryResponse();
         categoryResponse.setContent(categoryDTOS);
+        categoryResponse.setPageNumber(categoryPage.getNumber());
+        categoryResponse.setPageSize(categoryPage.getSize());
+        categoryResponse.setTotalElements(categoryPage.getNumberOfElements());
+        categoryResponse.setTotalPages(categoryPage.getTotalPages());
+        categoryResponse.setLastPage(categoryPage.isLast());
 
         return categoryResponse;
     }

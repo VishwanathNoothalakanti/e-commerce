@@ -1,5 +1,6 @@
 package com.ecommerce.vn_ecommerce.Controller;
 
+import com.ecommerce.vn_ecommerce.AppConstants.AppConstants;
 import com.ecommerce.vn_ecommerce.DTO.CategoryDTO;
 import com.ecommerce.vn_ecommerce.DTO.CategoryResponse;
 import com.ecommerce.vn_ecommerce.Entity.Category;
@@ -20,8 +21,13 @@ public class BasicController {
     }
 
     @GetMapping("/categories")
-    public ResponseEntity<CategoryResponse> getCategories() {
-        CategoryResponse categoryResponse =  categoryService.getCategories();
+    public ResponseEntity<CategoryResponse> getCategories(
+            @RequestParam(name = "pageNumber", defaultValue = AppConstants.PAGE_NUMBER) Integer pageNumber,
+            @RequestParam(name = "pageSize", defaultValue = AppConstants.PAGE_SIZE) Integer pageSize,
+            @RequestParam(name = "sortByCategoryId", defaultValue = AppConstants.SORT_BY_CATEGORY_ID) String sortByCategoryId,
+            @RequestParam(name = "sortDir", defaultValue = AppConstants.SORT_DIR) String sortDir
+    ) {
+        CategoryResponse categoryResponse =  categoryService.getCategories(pageNumber, pageSize, sortByCategoryId, sortDir);
         return new ResponseEntity<>(categoryResponse, HttpStatus.OK);
     }
 

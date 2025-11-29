@@ -6,7 +6,7 @@ import com.ecommerce.vn_ecommerce.Entity.Category;
 
 public interface CategoryService {
 
-    CategoryResponse getCategories();
+    CategoryResponse getCategories(Integer pageNumber, Integer pageSize, String sortByCategoryId, String sortDir);
 
     CategoryDTO addCategory(Category category);
 
