@@ -5,6 +5,7 @@ import com.ecommerce.vn_ecommerce.DTO.CategoryResponse;
 import com.ecommerce.vn_ecommerce.Entity.Category;
 import com.ecommerce.vn_ecommerce.Service.CategoryService;
 import com.ecommerce.vn_ecommerce.repositories.CategoryRespository;
+import jakarta.servlet.http.HttpServletRequest;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -81,7 +82,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryDTO updateCategory(Long id, Category updatedCategory) {
         Category c = categoryRespository.getReferenceById(id);
-        c.setName(updatedCategory.getName());
+        c.setCategoryName(updatedCategory.getCategoryName());
         Category updatedcategory = categoryRespository.save(c);
 
         return modelMapper.map(updatedCategory, CategoryDTO.class);

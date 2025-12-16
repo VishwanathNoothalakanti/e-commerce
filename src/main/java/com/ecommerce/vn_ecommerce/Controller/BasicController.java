@@ -5,6 +5,7 @@ import com.ecommerce.vn_ecommerce.DTO.CategoryDTO;
 import com.ecommerce.vn_ecommerce.DTO.CategoryResponse;
 import com.ecommerce.vn_ecommerce.Entity.Category;
 import com.ecommerce.vn_ecommerce.Service.CategoryService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +33,7 @@ public class BasicController {
     }
 
     @PostMapping("/createCategory")
-    public ResponseEntity<CategoryDTO> createCategory(@RequestBody Category category) {
+    public ResponseEntity<CategoryDTO> createCategory(@Valid @RequestBody Category category) {
        CategoryDTO createdCategory = categoryService.addCategory(category);
         return new ResponseEntity<>(createdCategory, HttpStatus.CREATED);
     }
